@@ -35,7 +35,7 @@ const resolvers = {
                     )
                 )
                 console.log(result.ref.data);
-                return result.ref.data 
+                return [{}]
             } catch (error) {
                 console.log(error)
             }
