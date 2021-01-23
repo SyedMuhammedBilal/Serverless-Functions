@@ -3,7 +3,9 @@ var dotenv = require('dotenv');
 var faunadb = require('faunadb')
 var q = faunadb.query;
 
-const typeDef = gql(`
+dotenv.config();
+
+const typeDefs = gql(`
     type Query {
         texts: [Message!]
     }
@@ -64,6 +66,7 @@ const resolvers = {
 };
 
 const server = new ApolloServer ({
+    typeDefs,
     resolvers
 })
 

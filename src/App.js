@@ -7,6 +7,10 @@ const App = () => {
   const { loading, error, data } = useQuery(getText);
   console.log(data);
 
+  const addMessage = () => {
+    addText({})
+  }
+
   if (loading) return <h1>Loading</h1>
   if (error) return <h1>Error</h1>
   return (

@@ -3,5 +3,5 @@ type Message {
 }
 
 type Query {
-    allText: [Note!]!
+    allText: [Message!]!
 }
