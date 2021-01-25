@@ -1,18 +1,18 @@
 const sendQuery = require('./helpers/send-Query');
 
-const ADD_TEXT = `
-    mutation($text: String!) {
-        addText(data: {text: $text}) {
-            _id,
-            text
+const DELETE_TEXT = `
+    mutation($id: ID!) {
+        deleteText(id: $id) {
+            _id
         }
     }
 `;
 
 exports.handler = async (event) => {
-    const { text } =  JSON.parse(event.body);
 
-    const { data, error } = await sendQuery(ADD_TEXT, { text });
+    const { id } = JSON.parse(event.body);
+
+    const { data, error } = await sendQuery(DELETE_TEXT, { id });
 
     if(error) {
         return {
@@ -24,7 +24,7 @@ exports.handler = async (event) => {
     return {
         statusCode: 200,
         body: JSON.stringify({
-            newText: data.addText
+            deletedText: data.deleteText
         })
     }
 };

@@ -1,18 +1,17 @@
 const sendQuery = require('./helpers/send-Query');
 
-const ADD_TEXT = `
-    mutation($text: String!) {
-        addText(data: {text: $text}) {
+const GET_TEXT = `
+    query {
+        allText {
             _id,
             text
         }
     }
 `;
 
-exports.handler = async (event) => {
-    const { text } =  JSON.parse(event.body);
+exports.handler = async () => {
 
-    const { data, error } = await sendQuery(ADD_TEXT, { text });
+    const { data, error } = await sendQuery(GET_TEXT);
 
     if(error) {
         return {
@@ -24,7 +23,7 @@ exports.handler = async (event) => {
     return {
         statusCode: 200,
         body: JSON.stringify({
-            newText: data.addText
+            notes: data.allText.data
         })
     }
 };
