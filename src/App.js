@@ -1,22 +1,28 @@
 import React, { useEffect, useState } from 'react'
-import { useQuery, useMutation } from '@apollo/client'
-import { getText } from './graphql/getText'
-import { addText } from './graphql/addText'
+import Axios from 'axios'
+import axios from 'axios';
 
 const App = () => {
-  const { loading, error, data } = useQuery(getText);
-  console.log(data);
+  const [text, setText] = useState('');
 
-  const addMessage = () => {
-    addText({})
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if(text === '') return;
+
+    await axios('/api/addText', { text })
+
+    setText('')
   }
 
-  if (loading) return <h1>Loading</h1>
-  if (error) return <h1>Error</h1>
+
   return (
     <div>
       <h1>Text Messages</h1>
-      {/* {JSON.stringify(data)} */}
+      <form onSubmit={handleSubmit}>
+        <input value={text} onChange={(e) => setText(e.target.value)} type='text' />
+        <button type="submit">Send</button>
+      </form>
     </div>
   )
 }
