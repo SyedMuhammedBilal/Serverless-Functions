@@ -1,8 +1,8 @@
 const sendQuery = require('./helpers/send-Query');
 
-const GET_TEXT = `
+const GET_ALL_MESSAGES = `
     query {
-        allText {
+        allMessages {
             _id,
             text
         }
@@ -11,7 +11,7 @@ const GET_TEXT = `
 
 exports.handler = async () => {
 
-    const { data, error } = await sendQuery(GET_TEXT);
+    const { data, error } = await sendQuery(GET_ALL_MESSAGES);
 
     if(error) {
         return {
@@ -23,7 +23,7 @@ exports.handler = async () => {
     return {
         statusCode: 200,
         body: JSON.stringify({
-            notes: data.allText.data
+            messages: data.allMessages.data
         })
     }
 };

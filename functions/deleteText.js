@@ -1,8 +1,8 @@
 const sendQuery = require('./helpers/send-Query');
 
-const DELETE_TEXT = `
+const DELETE_MESSAGE = `
     mutation($id: ID!) {
-        deleteText(id: $id) {
+        deleteMessage(id: $id) {
             _id
         }
     }
@@ -12,7 +12,7 @@ exports.handler = async (event) => {
 
     const { id } = JSON.parse(event.body);
 
-    const { data, error } = await sendQuery(DELETE_TEXT, { id });
+    const { data, error } = await sendQuery(DELETE_MESSAGE, { id });
 
     if(error) {
         return {
@@ -24,7 +24,7 @@ exports.handler = async (event) => {
     return {
         statusCode: 200,
         body: JSON.stringify({
-            deletedText: data.deleteText
+            deletedMessage: data.deleteMessage
         })
     }
 };
