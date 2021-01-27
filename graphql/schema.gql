@@ -3,5 +3,5 @@ type Message {
 }
 
 type Query {
-    allMessage: [Message!]!
+    allMessages: [Message!]!
 }

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Axios from 'axios'
-import axios from 'axios';
 
 const App = () => {
   const [text, setText] = useState('');
@@ -10,7 +9,7 @@ const App = () => {
 
     if(text === '') return;
 
-    await axios('/api/addText', { text })
+    await Axios('/.netlify/functions/addText', { text })
 
     setText('')
   }

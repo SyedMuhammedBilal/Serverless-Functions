@@ -2,7 +2,7 @@ const sendQuery = require('./helpers/send-Query');
 
 const GET_ALL_MESSAGES = `
     query {
-        allMessages {
+        allMessage {
             _id,
             text
         }

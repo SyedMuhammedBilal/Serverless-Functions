@@ -9,15 +9,15 @@ const ADD_MESSAGE = `
     }
 `;
 
-exports.handler = async (event) => {
+exports.handler = async event => {
     const { text } =  JSON.parse(event.body);
 
-    const { data, error } = await sendQuery(ADD_MESSAGE, { text });
+    const { data, errors } = await sendQuery(ADD_MESSAGE, { text });
 
-    if(error) {
+    if(errors) {
         return {
             statusCode: 500,
-            body: JSON.stringify(error)
+            body: JSON.stringify(errors)
         }
     }
 

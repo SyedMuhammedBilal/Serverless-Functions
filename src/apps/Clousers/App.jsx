@@ -16,11 +16,20 @@ const App = () => {
     setCount(count + 1)
   }
 
+  function handleSubmit(e) {
+    e.preventDefault();   
+    setCount({
+      
+    })
+  }
+
   return (
     <div>
       <button onClick={handleAlert}>Show Alert</button>
       <button onClick={handleClick}>Click Me</button>
       <h1> {count} </h1>
+      <input type="text" value={count} placeholder="click to add count" />
+      <button type="submit">Click me</button>
     </div>
   )
 }
