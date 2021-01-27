@@ -1,5 +1,6 @@
 type Message {
     text: String!
+    archived: Boolean!
 }
 
 type Query {
