@@ -7,9 +7,16 @@ const App = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if(text === '') return;
-
-    await Axios('/.netlify/functions/addText', { text })
+    const body = { text };
+    try {
+      const res = await fetch('/.netlify/functions/addText', {
+        method: 'POST',
+        body : JSON.stringify(body)
+      })
+      setText('')
+    } catch (error) {
+      console.log(error)
+    }
 
     setText('')
   }

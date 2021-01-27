@@ -1,30 +1,26 @@
 const sendQuery = require('./helpers/send-Query');
+const dotenv = require('dotenv');
+const { CREATE_MESSAGE } = require('./helpers/linkQueries');
+const formattedResponse = require('./helpers/formatedData')
 
-const ADD_MESSAGE = `
-    mutation($text: String!) {
-        addMessage(data: {text: $text}) {
-            _id,
-            text
-        }
-    }
-`;
+dotenv.config();
 
-exports.handler = async event => {
+exports.handler = async (event) => {
     const { text } =  JSON.parse(event.body);
 
-    const { data, errors } = await sendQuery(ADD_MESSAGE, { text });
+    const variables = { text, archived: false }
 
-    if(errors) {
-        return {
-            statusCode: 500,
-            body: JSON.stringify(errors)
-        }
-    }
-
-    return {
-        statusCode: 200,
-        body: JSON.stringify({
-            newMessage: data.addMessage
-        })
+    try {
+        const { createMessage: createdMessage } = await sendQuery(CREATE_MESSAGE, variables)
+        return formattedResponse (
+            200,
+            createdMessage
+        )
+    } catch (error) {
+        console.log(error)
+        return formattedResponse (
+            500,
+            {err: 'Something Went Wrong!'}
+        )
     }
 };
