@@ -1,30 +1,26 @@
 const sendQuery = require('./helpers/send-Query');
+const dotenv = require('dotenv');
+const { DELETE_MESSAGE } = require('./helpers/linkQueries');
+const formattedResponse = require('./helpers/formatedData')
 
-const DELETE_MESSAGE = `
-    mutation($id: ID!) {
-        deleteMessage(id: $id) {
-            _id
-        }
-    }
-`;
+dotenv.config();
 
 exports.handler = async (event) => {
+    const { id } =  JSON.parse(event.body);
 
-    const { id } = JSON.parse(event.body);
+    const variables = { id }
 
-    const { data, error } = await sendQuery(DELETE_MESSAGE, { id });
-
-    if(error) {
-        return {
-            statusCode: 500,
-            body: JSON.stringify(error)
-        }
-    }
-
-    return {
-        statusCode: 200,
-        body: JSON.stringify({
-            deletedMessage: data.deleteMessage
-        })
+    try {
+        const { deleteMessage: deletedMessage } = await sendQuery(DELETE_MESSAGE, variables)
+        return formattedResponse (
+            200,
+            deletedMessage
+        )
+    } catch (error) {
+        console.log(error)
+        return formattedResponse (
+            500,
+            {err: 'Something Went Wrong!'}
+        )
     }
 };

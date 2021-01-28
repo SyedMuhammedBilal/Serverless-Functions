@@ -1,29 +1,23 @@
 const sendQuery = require('./helpers/send-Query');
+const dotenv = require('dotenv');
+const { GET_MESSAGES } = require('./helpers/linkQueries');
+const formattedResponse = require('./helpers/formatedData')
 
-const GET_ALL_MESSAGES = `
-    query {
-        allMessage {
-            _id,
-            text
-        }
-    }
-`;
+dotenv.config();
 
 exports.handler = async () => {
-
-    const { data, error } = await sendQuery(GET_ALL_MESSAGES);
-
-    if(error) {
-        return {
-            statusCode: 500,
-            body: JSON.stringify(error)
-        }
-    }
-
-    return {
-        statusCode: 200,
-        body: JSON.stringify({
-            messages: data.allMessages.data
-        })
+    try {
+        const res = await sendQuery(GET_MESSAGES)
+        const data = res.allMessages.data
+        return formattedResponse (
+            200,
+            data
+        )
+    } catch (error) {
+        console.log(error)
+        return formattedResponse (
+            500,
+            {err: 'Something Went Wrong!'}
+        )
     }
 };

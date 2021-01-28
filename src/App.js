@@ -3,6 +3,22 @@ import Axios from 'axios'
 
 const App = () => {
   const [text, setText] = useState('');
+  const [messages, setMessages] = useState([]);
+
+  const loadMessages = async () => {
+    try {
+      const res = await fetch('/.netlify/functions/getText');
+      const Messages = await res.json();
+      console.log(Messages);
+      setMessages(Messages);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    loadMessages();
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,6 +45,13 @@ const App = () => {
         <input value={text} onChange={(e) => setText(e.target.value)} type='text' />
         <button type="submit">Send</button>
       </form>
+      <div>
+        {messages.map((msg) => {
+          return (
+            <p> {msg.text} </p>
+          )
+        })}
+      </div>
     </div>
   )
 }
