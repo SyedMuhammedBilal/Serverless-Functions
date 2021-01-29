@@ -32,7 +32,7 @@ const UPDATE_MESSAGE = `
 
 const DELETE_MESSAGE = `
     mutation($id: ID!) {
-        deleteLink(id: $id) {
+        deleteMessage(id: $id) {
             _id
         }
     }

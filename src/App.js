@@ -29,13 +29,14 @@ const App = () => {
         method: 'POST',
         body : JSON.stringify(body)
       })
+      console.log(res);
       setText('')
     } catch (error) {
       console.log(error)
     }
 
     setText('')
-  }
+  };
 
 
   return (
@@ -43,17 +44,39 @@ const App = () => {
       <h1>Text Messages</h1>
       <form onSubmit={handleSubmit}>
         <input value={text} onChange={(e) => setText(e.target.value)} type='text' />
-        <button type="submit">Send</button>
+        {text.length <= 0 ? <button type="submit" disabled>Send</button> : <button type="submit">Send</button>}
       </form>
-      <div>
-        {messages.map((msg) => {
+      {messages.map((msg) => {
           return (
-            <p> {msg.text} </p>
+            <Text key={msg._id} messages={msg} />
           )
         })}
+    </div>
+  )
+};
+
+export default App;
+
+
+const Text = ({messages}) => {
+  const deleteMessage = async () => {
+    const id = messages._id
+    try {
+      await fetch('/.netlify/functions/deleteText', {
+        method: 'DELETE',
+        body: JSON.stringify({ id })
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  return (
+    <div>   
+      <div>
+        <p> {messages.text} </p>
+        <button onClick={deleteMessage}>...</button>
       </div>
     </div>
   )
 }
-
-export default App;
