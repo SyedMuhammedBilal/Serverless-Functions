@@ -18,7 +18,7 @@ const App = () => {
 
   useEffect(() => {
     loadMessages();
-  }, [])
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,6 +31,7 @@ const App = () => {
       })
       console.log(res);
       setText('')
+      loadMessages();
     } catch (error) {
       console.log(error)
     }
@@ -48,7 +49,7 @@ const App = () => {
       </form>
       {messages.map((msg) => {
           return (
-            <Text key={msg._id} messages={msg} />
+            <Text key={msg._id} refreshMessage={loadMessages} messages={msg} />
           )
         })}
     </div>
@@ -58,14 +59,15 @@ const App = () => {
 export default App;
 
 
-const Text = ({messages}) => {
+const Text = ({messages, refreshMessage}) => {
   const deleteMessage = async () => {
     const id = messages._id
     try {
       await fetch('/.netlify/functions/deleteText', {
         method: 'DELETE',
         body: JSON.stringify({ id })
-      })
+      });
+      refreshMessage();
     } catch (error) {
       console.log(error)
     }
