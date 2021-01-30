@@ -4,28 +4,25 @@ const GET_MESSAGES = `
             data {
                 _id
                 text
-                archived
             }
         }
     }
 `
 
 const CREATE_MESSAGE = `
-    mutation($text: String!, $archived: Boolean!) {
-        createMessage(data: { text: $text, archived: $archived }) {
+    mutation($text: String!) {
+        createMessage(data: { text: $text }) {
             _id
             text
-            archived
         }
     }
 `
 
 const UPDATE_MESSAGE = `
-    mutation($id: ID!, $text: String!, $archived: Boolean!) {
-        updateMessage(id: $id, data: { text: $text, archived: $archived }) {
+    mutation($id: ID!, $text: String!, ) {
+        updateMessage(id: $id, data: { text: $text }) {
             _id
             text
-            archived
         }
     }
 `
